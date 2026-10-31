@@ -1,0 +1,91 @@
+{
+  "schema": 1,
+  "suite_version": "0.6.0",
+  "project": "lab-management-system-react-native",
+  "stack": "react-native",
+  "gates": {
+    "L1": {
+      "name": "格式（Prettier）",
+      "cmd": [
+        "npx",
+        "--no",
+        "--",
+        "prettier",
+        "--check",
+        "src",
+        "tests",
+        "App.tsx",
+        "index.js"
+      ],
+      "fix": "先确认 npm install 跑过。然后 npx prettier --write src tests App.tsx index.js。"
+    },
+    "L2": {
+      "name": "静态检查（ESLint）",
+      "cmd": [
+        "npx",
+        "--no",
+        "--",
+        "eslint",
+        "."
+      ],
+      "fix": "逐条修复 eslint。禁止用 eslint-disable 掩盖，除非同行注释给出理由。"
+    },
+    "L3": {
+      "name": "类型（tsc）",
+      "cmd": [
+        "npx",
+        "--no",
+        "--",
+        "tsc",
+        "--noEmit"
+      ],
+      "fix": "补全类型。禁止 any / @ts-ignore 绕过，除非附 ADR 说明。"
+    },
+    "L4": {
+      "name": "测试（jest）",
+      "cmd": [
+        "npx",
+        "--no",
+        "--",
+        "jest"
+      ],
+      "fix": "先让测试变绿，再谈重构。若测试本身有误，改测试前必须先说明理由。"
+    },
+    "L4.5": {
+      "name": "构建（metro bundle，android）",
+      "cmd": [
+        "npx",
+        "--no",
+        "--",
+        "react-native",
+        "bundle",
+        "--platform",
+        "android",
+        "--dev",
+        "false",
+        "--entry-file",
+        "index.js",
+        "--bundle-output",
+        "_work/bundle/index.android.bundle",
+        "--assets-dest",
+        "_work/bundle/assets"
+      ],
+      "fix": "构建错通常在 App.tsx / index.js / metro 配置。产物只许落 _work/（临时区纪律）。禁止放宽 metro 配置来变绿。"
+    }
+  },
+  "trace_cmd": [
+    "npx",
+    "--no",
+    "--",
+    "jest"
+  ],
+  "trace_env": {
+    "TRACE_MAP": "1"
+  },
+  "source_dirs": [
+    "src"
+  ],
+  "test_dirs": [
+    "tests"
+  ]
+}

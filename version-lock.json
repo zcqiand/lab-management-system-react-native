@@ -1,0 +1,15 @@
+{
+  "version_lock": {
+    "react-native": "0.88.1（@react-native-community/template 0.88.1 同源钉版，2026-10-27 发布）",
+    "react": "19.3.0（template 配对）",
+    "cli": "@react-native-community/cli 20.2.0（含 platform-android/ios；bundle 门走其 react-native bin）",
+    "jest": "^29.6.3（@react-native/jest-preset 0.88.1 配对；范围随 template，实钉看 package-lock.json）",
+    "eslint": "^8.19.0（@react-native/eslint-config 0.88.1 配对，.eslintrc 形态——栈自洽优先，不升 flat）",
+    "prettier": "2.8.8（template 钉版 exact）",
+    "typescript": "^6.0.3（@react-native/typescript-config 0.88.1 配对）",
+    "orval": "^7.5.0（家族 TS 前端统一面，codegen.md §4）",
+    "tsx": "^4.19.0（gen-shared.ts 运行器）",
+    "@types/node": "^24.0.0（scripts/gen-shared.ts + orval.config.ts 的 node API 类型）",
+    "node": ">= 22.11.0（engines；本机 24.14.1）"
+  }
+}

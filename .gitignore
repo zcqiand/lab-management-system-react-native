@@ -1,0 +1,25 @@
+# React Native
+node_modules/
+npm-debug.log
+yarn-error.log
+
+# Metro
+.metro-health-check*
+
+# testing
+/coverage
+
+# pipeline 产物（L4.5 bundle 门落 _work，正式区/临时区纪律：过程件不入库）
+_work/
+
+# env
+.env
+.env.*
+!.env.example
+
+# suite 状态（gate 运行产物）
+.state/trace.json
+.state/gate.json
+.state/gate.partial.json
+.state/alignment.json
+.state/tree-change.json
