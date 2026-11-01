@@ -28,21 +28,42 @@
 
 | 模块 ID | 模块名称 | 说明 | 状态 |
 |---|---|---|---|
-| M01 | （待填） | | 规划 |
+| M00 | 租户管理 | 当前用户会话消费（REQ-2026-033 首片；选租户/切租户后置） | 开发中 |
+| M01 | 认证管理 | 登录链消费面（REQ-2026-033 首片；菜单/权限面后置） | 开发中 |
 
 ---
 
-## M01 （待填）
+## M00 租户管理
 
 | 功能 ID | 功能名称 | 说明 | 状态 |
 |---|---|---|---|
-| M01.F01 | （待填） | | 规划 |
+| M00.F01 | 当前用户会话 | 当前用户信息 + 关联租户列表 + 当前选中租户 | 开发中 |
 
-### M01.F01 （待填）
+### M00.F01 当前用户会话
 
 | 子项 ID | 名称 | 类型 | 交付 | 说明 | 状态 |
 |---|---|---|---|---|---|
-| M01.F01.I01 | （待填） | 查询 | 后端 | | 规划 |
+| M00.F01.I01 | 当前会话（React Native 消费面） | 接口 | 前端+后端 | `authGetCurrentUser` 消费 GET /api/auth/me；身份/租户/currentTenantId 回填。测试锚 `tests/auth-chain.test.ts` | 开发中 |
+
+（M00.F02 登录选租户/切租户随 M00 域切片另片登记——REQ-2026-033 §1 范围外。）
+
+---
+
+## M01 认证管理
+
+| 功能 ID | 功能名称 | 说明 | 状态 |
+|---|---|---|---|
+| M01.F05 | 认证管理 | 原生登录 / 刷新 / 登出（SSO 浏览器流不适用原生客户端，不登记） | 开发中 |
+
+### M01.F05 认证管理
+
+| 子项 ID | 名称 | 类型 | 交付 | 说明 | 状态 |
+|---|---|---|---|---|---|
+| M01.F05.I06 | 原生登录（React Native 消费面） | 接口 | 前端+后端 | `authNativeLogin` 消费 POST /api/auth/native-login（saas IdP 代理，REQ-2026-023 方案 A）；入参装配 fail-fast + 非 200 清残留。测试锚 `tests/login-form.test.ts`、`tests/auth-chain.test.ts` | 开发中 |
+| M01.F05.I04 | 刷新 token（React Native 消费面） | 接口 | 前端+后端 | `authRefresh` 消费 POST /api/auth/refresh；token 对轮换，失败清会话抛错。测试锚 `tests/auth-chain.test.ts` | 开发中 |
+| M01.F05.I05 | 登出（React Native 消费面） | 接口 | 前端+后端 | `authLogout` 消费 POST /api/auth/logout（body={token}）+ 本地全清。测试锚 `tests/auth-chain.test.ts` | 开发中 |
+
+（M01.F04 菜单/权限消费面随导航切片另片登记；登录页 UI 随 native 工程面落地另片——REQ-2026-033 §1 范围外。M01.F01/M01.F01.I01 为 init 模板占位残留，lab shared 无此 ID，本片随授权编辑删除——harmonyos 首片同先例。）
 
 ---
 
