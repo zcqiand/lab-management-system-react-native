@@ -1,7 +1,7 @@
 {
-  "api_synced_sha": "e727563a68fd9f12f1d77f0831541577ed6afbaa",
-  "api_synced_at": "2026-10-31T01:03:23.416Z",
+  "api_synced_sha": "e1e92faff1e48419947f9eb1a109fd1f2ea8549d",
+  "api_synced_at": "2026-11-01T14:03:52.450Z",
   "api_synced_cmd": "gen-shared.ts",
-  "shared_sha": "e727563a68fd9f12f1d77f0831541577ed6afbaa",
+  "shared_sha": "e1e92faff1e48419947f9eb1a109fd1f2ea8549d",
   "consumer_repo": "lab-management-system-react-native"
 }
