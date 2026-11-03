@@ -31,7 +31,7 @@
 | M00 | 租户管理 | 当前用户会话 + 选租户/切租户消费（REQ-2026-033 首片 + REQ-2026-037 L-T1） | 开发中 |
 | M01 | 认证管理 | 登录链消费面（REQ-2026-033 首片；菜单/权限面后置） | 开发中 |
 | M02 | 资源管理 | 合同管理消费面（REQ-2026-037 L-T2 已落地） | 开发中 |
-| M03 | 试验过程管理 | 接样流 + 报告流消费面（REQ-2026-037 L-T4/L-T5；规划） | 规划 |
+| M03 | 试验过程管理 | 接样流 + 报告流消费面（REQ-2026-037 L-T4 已落地/L-T5 规划） | 开发中 |
 | M04 | 基础数据 | 码表四页消费面（REQ-2026-037 L-T3 已落地） | 开发中 |
 | M05 | 数据统计 | 报告汇总消费面（REQ-2026-037 L-T6；规划） | 规划 |
 | M06 | 检测能力 | 检测能力八页消费面（REQ-2026-037 L-T7；规划） | 规划 |
@@ -104,14 +104,59 @@
 
 | 功能 ID | 功能名称 | 说明 | 状态 |
 |---|---|---|---|
-| M03.F01 | 接样管理 | 接样单 CRUD、报告类别关联、流程状态消费面（L-T4） | 规划 |
-| M03.F02 | 任务分配 | 接样提交后安排检测人员/计划日期，提交进入数据录入（L-T4） | 规划 |
-| M03.F03 | 数据录入 | 样品检测数据录入消费面（L-T4） | 规划 |
+| M03.F01 | 接样管理 | 接样单 CRUD、报告类别关联、流程状态消费面（L-T4 已落地） | 开发中 |
+| M03.F02 | 任务分配 | 接样提交后安排检测人员/计划日期，提交进入数据录入（L-T4 已落地） | 开发中 |
+| M03.F03 | 数据录入 | 样品检测数据录入消费面（L-T4 已落地） | 开发中 |
 | M03.F05 | 报告审核 | 报告审核流程消费面（L-T5） | 规划 |
 | M03.F06 | 报告批准 | 报告批准流程消费面（L-T5） | 规划 |
 | M03.F07 | 报告发放 | 报告发放流程消费面（L-T5） | 规划 |
 | M03.F08 | 报告归档 | 报告归档流程消费面（L-T5） | 规划 |
 | M03.F09 | 接样单详情 | 接样单查看（接样信息+样品信息+检测数据）消费面（L-T5） | 规划 |
+
+### M03.F01 接样管理
+
+> 镜像 shared BASE `/api/receipts` + `/api/samples/{id}/ext` 消费面（REQ-2026-037 L-T4）。
+
+| 子项 ID | 名称 | 类型 | 交付 | 说明 | 状态 |
+|---|---|---|---|---|---|
+| M03.F01.I01 | 接样单列表（React Native 消费面） | 接口 | 前端+后端 | `receiptsListReceipts` 消费 GET /api/receipts；contractId/flowStatus/keyword 过滤 + 回显全量信封。测试锚 `tests/receipts.test.ts` | 开发中 |
+| M03.F01.I02 | 接样单详情（React Native 消费面） | 接口 | 前端+后端 | `receiptsGetReceipt` 消费 GET /api/receipts/{id}（含 flowHistory）；404 无此接样单分流。测试锚 `tests/receipts.test.ts` | 开发中 |
+| M03.F01.I03 | 创建接样单（React Native 消费面） | 接口 | 前端+后端 | `receiptsCreateReceipt` 消费 POST /api/receipts；七必填装配 fail-fast（ADR-0019）。测试锚 `tests/receipts.test.ts` | 开发中 |
+| M03.F01.I04 | 更新接样单（React Native 消费面） | 接口 | 前端+后端 | `receiptsUpdateReceipt` 消费 PUT /api/receipts/{id}；PATCH 语义部分载荷（空载荷禁发）。测试锚 `tests/receipts.test.ts` | 开发中 |
+| M03.F01.I05 | 删除接样单（React Native 消费面） | 接口 | 前端+后端 | `receiptsDeleteReceipt` 消费 DELETE /api/receipts/{id}；204→undefined，404 分流。测试锚 `tests/receipts.test.ts` | 开发中 |
+| M03.F01.I06 | 接样单流程历史（React Native 消费面） | 接口 | 前端+后端 | `receiptsGetReceiptHistory` 消费 GET /api/receipts/{id}/history；FlowHistoryEntry[]。测试锚 `tests/receipts.test.ts` | 开发中 |
+| M03.F01.I07 | 接样单 ext 字段补录（React Native 消费面） | 接口 | 前端+后端 | `samplesUpdateSampleExt` 消费 PUT /api/samples/{id}/ext；{ext} 包装载荷 + 空 ext 禁发。测试锚 `tests/samples.test.ts` | 开发中 |
+| M03.F01.I08 | 接样-提交（React Native 消费面） | 接口 | 前端+后端 | `receiptsActFlowReceiving` 消费 POST /api/receipts/receiving/act；body.action 三动作统一，operator 会话注入，ids 空/无效动作 fail-fast。测试锚 `tests/receipts.test.ts` | 开发中 |
+
+### M03.F02 任务分配
+
+> 镜像 shared BASE `/api/receipts/{id}/task` + `/api/receipts/assigning/act` 消费面（REQ-2026-037 L-T4）。
+
+| 子项 ID | 名称 | 类型 | 交付 | 说明 | 状态 |
+|---|---|---|---|---|---|
+| M03.F02.I01 | 任务分配（React Native 消费面） | 接口 | 前端+后端 | `receiptsAssignTask` 消费 PUT /api/receipts/{id}/task；assigneeId/assigneeName/plannedTestDate 三字段。测试锚 `tests/receipts.test.ts` | 开发中 |
+| M03.F02.I04 | 任务分配三态过滤器（React Native 消费面） | 按钮 | 仅前端 | `flowStatusForFilter` 三态（当前阶段/下一阶段/全部），镜像 react 仓 ReceiptsList 惯例。测试锚 `tests/receipts.test.ts` | 开发中 |
+| M03.F02.I05 | 任务分配-提交（React Native 消费面） | 接口 | 前端+后端 | `receiptsActFlowAssigning` 消费 POST /api/receipts/assigning/act；三动作统一。测试锚 `tests/receipts.test.ts` | 开发中 |
+
+### M03.F03 样品与检测记录
+
+> 镜像 shared BASE `/api/samples` + `/api/test-records` + `/api/receipts/data-entry/act` 消费面（REQ-2026-037 L-T4）。
+
+| 子项 ID | 名称 | 类型 | 交付 | 说明 | 状态 |
+|---|---|---|---|---|---|
+| M03.F03.I01 | 样品列表（React Native 消费面） | 接口 | 前端+后端 | `samplesListSamples` 消费 GET /api/samples；receiptId/keyword 过滤 + 回显全量信封。测试锚 `tests/samples.test.ts` | 开发中 |
+| M03.F03.I02 | 样品详情（React Native 消费面） | 接口 | 前端+后端 | `samplesGetSample` 消费 GET /api/samples/{id}；含 ext 扩展字段。测试锚 `tests/samples.test.ts` | 开发中 |
+| M03.F03.I03 | 创建样品（React Native 消费面） | 接口 | 前端+后端 | `samplesCreateSample` 消费 POST /api/samples；receiptId/sampleCode 必填 fail-fast（ADR-0019）。测试锚 `tests/samples.test.ts` | 开发中 |
+| M03.F03.I04 | 更新样品（React Native 消费面） | 接口 | 前端+后端 | `samplesUpdateSample` 消费 PUT /api/samples/{id}；PATCH 语义部分载荷（空载荷禁发）。测试锚 `tests/samples.test.ts` | 开发中 |
+| M03.F03.I05 | 删除样品（React Native 消费面） | 接口 | 前端+后端 | `samplesDeleteSample` 消费 DELETE /api/samples/{id}；204→undefined。测试锚 `tests/samples.test.ts` | 开发中 |
+| M03.F03.I06 | 检测记录列表（React Native 消费面） | 接口 | 前端+后端 | `testRecordsListTestRecords` 消费 GET /api/test-records；sampleId/parameterCode 过滤 + 回显全量信封。测试锚 `tests/test-records.test.ts` | 开发中 |
+| M03.F03.I07 | 检测记录详情（React Native 消费面） | 接口 | 前端+后端 | `testRecordsGetTestRecord` 消费 GET /api/test-records/{id}；含 verdict。测试锚 `tests/test-records.test.ts` | 开发中 |
+| M03.F03.I08 | 创建检测记录（React Native 消费面） | 接口 | 前端+后端 | `testRecordsCreateTestRecord` 消费 POST /api/test-records；sampleId/parameterCode/requirement/result 四必填 fail-fast（ADR-0019）。测试锚 `tests/test-records.test.ts` | 开发中 |
+| M03.F03.I09 | 更新检测记录（React Native 消费面） | 接口 | 前端+后端 | `testRecordsUpdateTestRecord` 消费 PUT /api/test-records/{id}；PATCH 语义部分载荷（空载荷禁发）。测试锚 `tests/test-records.test.ts` | 开发中 |
+| M03.F03.I10 | 删除检测记录（React Native 消费面） | 接口 | 前端+后端 | `testRecordsDeleteTestRecord` 消费 DELETE /api/test-records/{id}；204→undefined。测试锚 `tests/test-records.test.ts` | 开发中 |
+| M03.F03.I11 | 检测记录改判（React Native 消费面） | 接口 | 前端+后端 | `testRecordsSetVerdict` 消费 PATCH /api/test-records/{id}/verdict；verdict 空禁发 fail-fast，200 TestRecord。测试锚 `tests/test-records.test.ts` | 开发中 |
+| M03.F03.I12 | 数据录入-提交（React Native 消费面） | 接口 | 前端+后端 | `receiptsActFlowDataEntry` 消费 POST /api/receipts/data-entry/act；三动作统一，operator 会话注入。测试锚 `tests/test-records.test.ts` | 开发中 |
+| M03.F03.I15 | 数据录入三态过滤器（React Native 消费面） | 按钮 | 仅前端 | `flowStatusForFilter` 三态（当前/下一阶段/全部），re-export 自 receipts。测试锚 `tests/test-records.test.ts` | 开发中 |
 
 ---
 
