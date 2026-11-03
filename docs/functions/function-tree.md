@@ -32,7 +32,7 @@
 | M01 | 认证管理 | 登录链消费面（REQ-2026-033 首片；菜单/权限面后置） | 开发中 |
 | M02 | 资源管理 | 合同管理消费面（REQ-2026-037 L-T2 已落地） | 开发中 |
 | M03 | 试验过程管理 | 接样流 + 报告流消费面（REQ-2026-037 L-T4/L-T5；规划） | 规划 |
-| M04 | 基础数据 | 码表四页消费面（REQ-2026-037 L-T3；规划） | 规划 |
+| M04 | 基础数据 | 码表四页消费面（REQ-2026-037 L-T3 已落地） | 开发中 |
 | M05 | 数据统计 | 报告汇总消费面（REQ-2026-037 L-T6；规划） | 规划 |
 | M06 | 检测能力 | 检测能力八页消费面（REQ-2026-037 L-T7；规划） | 规划 |
 
@@ -119,10 +119,54 @@
 
 | 功能 ID | 功能名称 | 说明 | 状态 |
 |---|---|---|---|
-| M04.F06 | 型号维护 | InspectionModel 实体码表维护消费面，列表按检测专项过滤（L-T3） | 规划 |
-| M04.F07 | 规格维护 | InspectionSpec 实体码表维护消费面，列表按检测专项过滤（L-T3） | 规划 |
-| M04.F08 | 等级维护 | InspectionGrade 实体码表维护消费面，列表按检测专项过滤（L-T3） | 规划 |
-| M04.F09 | 牌号维护 | InspectionBrand 实体码表维护消费面，列表按检测专项过滤（L-T3） | 规划 |
+| M04.F06 | 型号维护 | InspectionModel 实体码表维护消费面，列表按检测专项过滤（L-T3 已落地） | 开发中 |
+| M04.F07 | 规格维护 | InspectionSpec 实体码表维护消费面，列表按检测专项过滤（L-T3 已落地） | 开发中 |
+| M04.F08 | 等级维护 | InspectionGrade 实体码表维护消费面，列表按检测专项过滤（L-T3 已落地） | 开发中 |
+| M04.F09 | 牌号维护 | InspectionBrand 实体码表维护消费面，列表按检测专项过滤（L-T3 已落地） | 开发中 |
+
+### M04.F06 型号维护
+
+> 镜像 shared BASE `/api/catalog/models` 消费面（REQ-2026-037 L-T3）。
+
+| 子项 ID | 名称 | 类型 | 交付 | 说明 | 状态 |
+|---|---|---|---|---|---|
+| M04.F06.I01 | 型号列表（React Native 消费面） | 接口 | 前端+后端 | `catalogListModels` 消费 GET /api/catalog/models；inspectionObjectCode/keyword 过滤 + 回显全量信封（op 级 @doc 定稿）。测试锚 `tests/catalog.test.ts` | 开发中 |
+| M04.F06.I02 | 创建型号（React Native 消费面） | 接口 | 前端+后端 | `catalogCreateModel` 消费 POST /api/catalog/models；code/name 必填装配 fail-fast（ADR-0019）。测试锚 `tests/catalog.test.ts` | 开发中 |
+| M04.F06.I03 | 更新型号（React Native 消费面） | 接口 | 前端+后端 | `catalogUpdateModel` 消费 PUT /api/catalog/models/{code}；body 全可选、code 主键不可变（空载荷禁发）。测试锚 `tests/catalog.test.ts` | 开发中 |
+| M04.F06.I04 | 删除型号（React Native 消费面） | 接口 | 前端+后端 | `catalogDeleteModel` 消费 DELETE /api/catalog/models/{code}；204→undefined。测试锚 `tests/catalog.test.ts` | 开发中 |
+
+### M04.F07 规格维护
+
+> 镜像 shared BASE `/api/catalog/specs` 消费面（REQ-2026-037 L-T3）。
+
+| 子项 ID | 名称 | 类型 | 交付 | 说明 | 状态 |
+|---|---|---|---|---|---|
+| M04.F07.I01 | 规格列表（React Native 消费面） | 接口 | 前端+后端 | `catalogListSpecs` 消费 GET /api/catalog/specs；过滤 + 回显全量信封。测试锚 `tests/catalog.test.ts` | 开发中 |
+| M04.F07.I02 | 创建规格（React Native 消费面） | 接口 | 前端+后端 | `catalogCreateSpec` 消费 POST /api/catalog/specs；code/name 必填装配 fail-fast（ADR-0019）。测试锚 `tests/catalog.test.ts` | 开发中 |
+| M04.F07.I03 | 更新规格（React Native 消费面） | 接口 | 前端+后端 | `catalogUpdateSpec` 消费 PUT /api/catalog/specs/{code}；body 全可选（空载荷禁发）。测试锚 `tests/catalog.test.ts` | 开发中 |
+| M04.F07.I04 | 删除规格（React Native 消费面） | 接口 | 前端+后端 | `catalogDeleteSpec` 消费 DELETE /api/catalog/specs/{code}；204→undefined。测试锚 `tests/catalog.test.ts` | 开发中 |
+
+### M04.F08 等级维护
+
+> 镜像 shared BASE `/api/catalog/grades` 消费面（REQ-2026-037 L-T3）。
+
+| 子项 ID | 名称 | 类型 | 交付 | 说明 | 状态 |
+|---|---|---|---|---|---|
+| M04.F08.I01 | 等级列表（React Native 消费面） | 接口 | 前端+后端 | `catalogListGrades` 消费 GET /api/catalog/grades；过滤 + 回显全量信封。测试锚 `tests/catalog.test.ts` | 开发中 |
+| M04.F08.I02 | 创建等级（React Native 消费面） | 接口 | 前端+后端 | `catalogCreateGrade` 消费 POST /api/catalog/grades；code/name 必填装配 fail-fast（ADR-0019）。测试锚 `tests/catalog.test.ts` | 开发中 |
+| M04.F08.I03 | 更新等级（React Native 消费面） | 接口 | 前端+后端 | `catalogUpdateGrade` 消费 PUT /api/catalog/grades/{code}；body 全可选（空载荷禁发）。测试锚 `tests/catalog.test.ts` | 开发中 |
+| M04.F08.I04 | 删除等级（React Native 消费面） | 接口 | 前端+后端 | `catalogDeleteGrade` 消费 DELETE /api/catalog/grades/{code}；204→undefined。测试锚 `tests/catalog.test.ts` | 开发中 |
+
+### M04.F09 牌号维护
+
+> 镜像 shared BASE `/api/catalog/brands` 消费面（REQ-2026-037 L-T3）。
+
+| 子项 ID | 名称 | 类型 | 交付 | 说明 | 状态 |
+|---|---|---|---|---|---|
+| M04.F09.I01 | 牌号列表（React Native 消费面） | 接口 | 前端+后端 | `catalogListBrands` 消费 GET /api/catalog/brands；过滤 + 回显全量信封。测试锚 `tests/catalog.test.ts` | 开发中 |
+| M04.F09.I02 | 创建牌号（React Native 消费面） | 接口 | 前端+后端 | `catalogCreateBrand` 消费 POST /api/catalog/brands；code/name 必填装配 fail-fast（ADR-0019）。测试锚 `tests/catalog.test.ts` | 开发中 |
+| M04.F09.I03 | 更新牌号（React Native 消费面） | 接口 | 前端+后端 | `catalogUpdateBrand` 消费 PUT /api/catalog/brands/{code}；body 全可选（空载荷禁发）。测试锚 `tests/catalog.test.ts` | 开发中 |
+| M04.F09.I04 | 删除牌号（React Native 消费面） | 接口 | 前端+后端 | `catalogDeleteBrand` 消费 DELETE /api/catalog/brands/{code}；204→undefined。测试锚 `tests/catalog.test.ts` | 开发中 |
 
 ---
 
