@@ -48,6 +48,7 @@ export interface Session {
   applyLogin(response: LoginResponse): void;
   applySession(session: CurrentUserSession): void;
   applyRefresh(response: LoginResponse): void;
+  applySwitchTenant(response: LoginResponse, tenantId: string): void;
   clear(): void;
   authHeaders(): Record<string, string>;
 }
@@ -88,6 +89,11 @@ export function createSession(store: TokenStore = new MemoryTokenStore()): Sessi
 
     applyRefresh(response: LoginResponse): void {
       absorbLogin(response); // token 对轮换；currentTenantId 保留既有值不动
+    },
+
+    applySwitchTenant(response: LoginResponse, tenantId: string): void {
+      absorbLogin(response);
+      persist({currentTenantId: tenantId}); // 换发 token 携带新租户 claim，会话同步改选中租户
     },
 
     clear(): void {

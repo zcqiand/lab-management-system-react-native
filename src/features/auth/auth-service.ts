@@ -12,6 +12,7 @@ import {
   authLogout,
   authNativeLogin,
   authRefresh,
+  authSwitchTenant,
 } from '../../api/endpoints/auth/auth';
 import {assembleLoginRequest, type LoginInput} from './login-form';
 import type {Session} from '../../session/session';
@@ -20,6 +21,7 @@ export interface AuthService {
   login(input: LoginInput): Promise<{id: string; username: string}>;
   me(): Promise<CurrentUserSession>;
   refresh(): Promise<void>;
+  switchTenant(tenantId: string): Promise<void>;
   logout(): Promise<void>;
 }
 
@@ -73,6 +75,21 @@ export function createAuthService({session}: {session: Session}): AuthService {
         throw fail(response.status, response.data, '刷新失败');
       }
       session.applyRefresh(response.data);
+    },
+
+    async switchTenant(tenantId: string) {
+      if (!tenantId.trim()) {
+        throw new Error('tenantId 缺失——切租户必须显式指定目标租户（ADR-0019）');
+      }
+      const response = await authSwitchTenant(
+        {tenantId},
+        {headers: session.authHeaders()},
+      );
+      if (response.status !== 200) {
+        // 换发不成功不清残留：旧 token 仍有效，切租户失败会话保留
+        throw fail(response.status, response.data, '切租户失败');
+      }
+      session.applySwitchTenant(response.data, tenantId);
     },
 
     async logout() {
