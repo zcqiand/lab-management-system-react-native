@@ -1,21 +1,23 @@
 {
   "schema": 1,
   "project": "lab-management-system RN 侧全功能同步",
-  "current_task": "REQ-2026-037 L-T4 接样流收官——M03.F01-F03 二十四活 I 全 trace；下一片 L-T5 详情+报告流（M03.F09+F05-F08）",
+  "current_task": "REQ-2026-037 L-T5 详情+报告流收官——M03.F05-F09 十四活 I 全 trace；下一片 L-T6 汇总（M05.F01）",
   "done": [
     "REQ-2026-033（c7133ef）：登录链四 ID 首片",
     "L-T1（6c64f62）：switchTenant 消费 + applySwitchTenant；3 锚；gate 38 条目",
     "L-T2（82ee1b9+a631f65）：contracts 五 op + contract-view；6 锚；gate 43 条目",
-    "L-T3（b9a3028+-suite b90c8d3）：码表四域十六 op；16 锚；gate 59 条目",
-    "L-T4（本批）：接样流 M03.F01-F03——receipts 八 op（list/get/create/update/remove/history/receiving act/task/assigning act）+ samples 五 op + ext 补录 + test-records 六 op + setVerdict + data-entry act + 三态过滤器×2；24 fnTest 锚全 trace（receipts/samples/test-records 三测试文件）；operator 从会话注入（displayName||username，缺失 fail-fast ADR-0019）；src/features/shared/http.ts 收敛 expectData/expectNoContent/dropUndefined；树 M03 模块+三 F 规划→开发中 + 24 I 登记（提案 28 changes mirror 免批）",
-    "指纹：act 语义=POST /act body{ids,action:submit|return|withdraw,operator,reason?}→200 FlowActionResult[]；submitted 过滤=下一阶段（receiving→task_assignment→data_entry→review，镜像 react 仓）；update PUT PATCH 语义空载荷禁发全族；改判 PATCH /{id}/verdict body{verdict}"
+    "L-T3（b9a3028）：码表四域十六 op；16 锚；gate 59 条目",
+    "L-T4（137c5a2）：接样流 M03.F01-F03；24 锚；gate 83 条目",
+    "L-T5（本批）：详情+报告流 M03.F05-F09——四阶段 act（review/approve/issuance/archived，act 工厂共用 assembleFlowAction + operator 会话注入）+ 各阶段查看详情共端点 GET /{id}（stageDetailTest 参数化×4）+ 三态过滤器全七段（NEXT_STAGE 扩 archived→completed 收链）+ 详情聚合（详情+流程历史并发）+ 报告预览派生（buildReportPreview，categoryCode 缺失 fail-fast）；14 锚全 trace（tests/report-flow.test.ts）；树 F05-F09 规划→开发中 + 14 I 登记（提案 19 changes mirror 免批）；gate L0-L5 全绿 97 条目",
+    "指纹：react 参考仓 F05-F08 的 I04 过滤器仍是规划态——镜像以 BASE 活跃行为准（BASE=开发中），react 只当语义参考不当行清单；派生脚手架新配方=从盘上干净文件机械变换生成骨架+数据（lt5-skel.py/lt5-derive.py 手绘数据表仍会退化，模板派生零手生成落地）"
   ],
-  "next": "REQ-2026-037 L-T5 详情+报告流（M03.F09 接样单详情聚合 + M03.F05-F08 报告流）：先侦察 shared BASE M03.F05-F09 活跃 I 项 + 生成端点数据类型逐 op 核，再走同款配方（提案→phase red→fnTest→L4 红灯证据→实现→绿→插行→TRACE_MAP 重灌→全门→双仓提交推远端）",
+  "next": "REQ-2026-037 L-T6 汇总（M05.F01 报告汇总表，按报告名称）：先侦察 lab shared BASE M05.F01 活跃 I 项 + 生成端点 reports/ 数据类型逐 op 核，再走同款配方（提案→phase red→fnTest→L4 红灯证据→实现→绿→插行→TRACE_MAP 重灌→全门→双仓提交推远端）",
   "open_questions": [],
   "dont": [
-    "长中文表格行禁止一次生成超 3 行——本批 tree F03 段插入多行 Edit 反复退化（面面/消费系/片：截断+占位符泄漏），逐 2-3 行小 Edit + 每步盘验才落地；失败次数多时先停手再读盘取锚",
-    "整文件单发 Write 写长测试文件不可靠——骨架+Edit 小段追加（记忆 long-cjk-table-generation-corruption）",
-    "回验 Bash 先 pwd 再看文件——suite 环境 cwd 会在调用间弹回 suite 根，每条命令带 cd 绝对路径 && pwd 前缀",
+    "手绘脚本数据表/长 CJK 仍会退化（本批 lt5-tree-surgery.py 数据表 SECTION_ERR/前端+7位 中招即删）——长内容一律从盘上干净字节机械派生（短 token replace），新骨架从兄弟测试文件派生",
+    "骨架派生后必须 diff 盘点两处：尾逗号（replace 连逗号吞）与 fixture 语义残留（ACTIONS flowStatus 继承自源文件要改）",
+    "整文件单发 Write 写长测试文件不可靠——骨架+Edit 小段追加",
+    "回验 Bash 先 pwd——suite 环境 cwd 会在调用间弹回 suite 根，每条命令带 cd 绝对路径 && pwd 前缀",
     "门命令必须 npx --no -- 分隔；redcheck.py Windows 起不动 npx——红灯判定走 gate.py --only L4",
     "新文件过门前先 npx --no -- prettier --write",
     "收官提交圈定文件清单禁 git add -A（phase.json/red.json 证据文件不入库）"

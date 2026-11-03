@@ -92,11 +92,24 @@ export function assembleFlowAction(
   };
 }
 
-/** 本片三阶段（接样/任务分配/数据录入）→ 下一阶段映射（已提交语义）。 */
-const NEXT_STAGE: Record<'receiving' | 'task_assignment' | 'data_entry', FlowStatus> = {
+/** 七段流程 → 下一阶段映射（已提交语义；archived 收链到 completed）。 */
+const NEXT_STAGE: Record<
+  | 'receiving'
+  | 'task_assignment'
+  | 'data_entry'
+  | 'review'
+  | 'approval'
+  | 'issuance'
+  | 'archived',
+  FlowStatus
+> = {
   receiving: 'task_assignment',
   task_assignment: 'data_entry',
   data_entry: 'review',
+  review: 'approval',
+  approval: 'issuance',
+  issuance: 'archived',
+  archived: 'completed',
 };
 
 export type FlowStage = keyof typeof NEXT_STAGE;
