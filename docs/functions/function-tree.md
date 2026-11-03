@@ -30,7 +30,7 @@
 |---|---|---|---|
 | M00 | 租户管理 | 当前用户会话 + 选租户/切租户消费（REQ-2026-033 首片 + REQ-2026-037 L-T1） | 开发中 |
 | M01 | 认证管理 | 登录链消费面（REQ-2026-033 首片；菜单/权限面后置） | 开发中 |
-| M02 | 资源管理 | 合同管理消费面（REQ-2026-037 L-T2；规划） | 规划 |
+| M02 | 资源管理 | 合同管理消费面（REQ-2026-037 L-T2 已落地） | 开发中 |
 | M03 | 试验过程管理 | 接样流 + 报告流消费面（REQ-2026-037 L-T4/L-T5；规划） | 规划 |
 | M04 | 基础数据 | 码表四页消费面（REQ-2026-037 L-T3；规划） | 规划 |
 | M05 | 数据统计 | 报告汇总消费面（REQ-2026-037 L-T6；规划） | 规划 |
@@ -84,7 +84,19 @@
 
 | 功能 ID | 功能名称 | 说明 | 状态 |
 |---|---|---|---|
-| M02.F01 | 合同管理 | 合同 CRUD、工程信息维护消费面（L-T2） | 规划 |
+| M02.F01 | 合同管理 | 合同 CRUD、工程信息维护消费面（L-T2 已落地） | 开发中 |
+
+### M02.F01 合同管理
+
+> 镜像 shared BASE `/api/contracts` 消费面（REQ-2026-037 L-T2）。
+
+| 子项 ID | 名称 | 类型 | 交付 | 说明 | 状态 |
+|---|---|---|---|---|---|
+| M02.F01.I01 | 合同列表（React Native 消费面） | 接口 | 前端+后端 | `contractsListContracts` 消费 GET /api/contracts；keyword/status 过滤 + 回显全量信封（op 级 @doc 定稿）。测试锚 `tests/contract.test.ts` | 开发中 |
+| M02.F01.I02 | 合同详情（React Native 消费面） | 接口 | 前端+后端 | `contractsGetContract` 消费 GET /api/contracts/{id}；404 无此合同分流。测试锚 `tests/contract.test.ts` | 开发中 |
+| M02.F01.I03 | 创建合同（React Native 消费面） | 接口 | 前端+后端 | `contractsCreateContract` 消费 POST /api/contracts；六必填装配 fail-fast（status 服务端默认）。测试锚 `tests/contract.test.ts` | 开发中 |
+| M02.F01.I04 | 更新合同（React Native 消费面） | 接口 | 前端+后端 | `contractsUpdateContract` 消费 PUT /api/contracts/{id}；PATCH 语义部分载荷（空载荷禁发）。测试锚 `tests/contract.test.ts` | 开发中 |
+| M02.F01.I05 | 删除合同（React Native 消费面） | 接口 | 前端+后端 | `contractsDeleteContract` 消费 DELETE /api/contracts/{id}；204→undefined。测试锚 `tests/contract.test.ts` | 开发中 |
 
 ---
 

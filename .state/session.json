@@ -1,19 +1,20 @@
 {
   "schema": 1,
   "project": "lab-management-system RN 侧全功能同步",
-  "current_task": "REQ-2026-037 L-T1 选租户/切租户收官——M00.F02.I01 全 trace，gate L0-L5 全绿 38 条目；下一片 L-T2 合同",
+  "current_task": "REQ-2026-037 L-T2 合同消费面收官——M02.F01.I01-I05 全 trace，gate L0-L5 全绿 43 条目；下一片 L-T3 码表四页",
   "done": [
-    "REQ-2026-033（c7133ef）：登录链四 ID 首片（原生登录/当前会话/刷新/登出）——本片补记（当时 session 漏更）",
-    "L-T1（本批）：authSwitchTenant 消费 POST /api/auth/switch-tenant；session 增 applySwitchTenant（token 对轮换 + currentTenantId 置新租户）；服务层 switchTenant（空租户 fail-fast / 非 200 保留既有会话不清残留）；3 fnTest 锚 M00.F02.I01 全 trace（tests/tenant-switch.test.ts）",
-    "L-T1 树面：M00.F02 F+I 镜像登记（两批提案：sha 53d7b46f / cc0cab56）+ REQ 引用的 6 模块/22 F 行规划态预登记解 L5 悬空",
-    "指纹：REQ 立项引用的后续切片域须规划态预登记（否则 L5 悬空拦全门）；lab LoginResponse 无 currentTenantId，切租户断言前须 applySession 预置"
+    "REQ-2026-033（c7133ef）：登录链四 ID 首片",
+    "L-T1（6c64f62）：switchTenant 消费 + applySwitchTenant；3 锚；gate 38 条目",
+    "L-T2（本批）：contracts 五 op（list/get/create/update/remove）+ contract-view（行/详情派生 + 六必填装配 fail-fast + PATCH 空载荷禁发 + 二态文案）；6 fnTest 锚 M02.F01.I01-I05 全 trace（tests/contract.test.ts）；gate L0-L5 全绿 43 条目软告警 0",
+    "L-T2 树面：M02.F01 I01-I05 登记 + M02/M02.F01 规划→开发中（提案 sha 6bf094d5）",
+    "指纹：list 分页语义以 op 级 @doc 为准（合同域 @doc=回显全量不切片，计划坑列的 1-based pageOf 猜测被推翻）；prettier 对新文件先 --write 再过门（长单行 fail 3s 内快红）"
   ],
-  "next": "REQ-2026-037 L-T2 合同（M02.F01，切片域分页 1-based pageOf）：先侦察 shared BASE M02.F01 活跃 I 项 + 生成端点 contracts/ data 类型逐 op 核，再走同款配方（提案→红→测试→绿→插行→trace→全门→双仓提交）",
+  "next": "REQ-2026-037 L-T3 码表四页（M04.F06-F09 型号/规格/等级/牌号，按检测专项过滤，回显域分页 items 全量——5.127③ 定稿表）：先侦察 shared BASE 四 F 活跃 I 项 + 生成端点 inspection-catalog/ data 类型逐 op 核，再走同款配方",
   "open_questions": [],
   "dont": [
-    "整文件单发 Write 写长测试文件不可靠（本批三连退化，改骨架+Edit 小段追加一次过）——见记忆 long-cjk-table-generation-corruption 2026-11-03 增补",
-    "回验 Bash 先 pwd 再看文件——cwd 会静默漂到别的仓（本批实证）",
-    "门命令必须 npx --no -- 分隔；REQ 文档禁挂未登记裸 ID",
-    "redcheck.py Windows 起不动 npx——红灯判定走 gate.py --only L4"
+    "整文件单发 Write 写长测试文件不可靠——骨架+Edit 小段追加（记忆 long-cjk-table-generation-corruption）",
+    "回验 Bash 先 pwd 再看文件——cwd 会静默漂仓",
+    "门命令必须 npx --no -- 分隔；redcheck.py Windows 起不动 npx——红灯判定走 gate.py --only L4",
+    "新文件过门前先 npx --no -- prettier --write（本批 L1 红过一次，双文件 3 秒修）"
   ]
 }
