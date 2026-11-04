@@ -1,7 +1,7 @@
 {
   "schema": 1,
   "project": "lab-management-system RN 侧全功能同步",
-  "current_task": "REQ-2026-037 L-T8 收官批完成——代码交付全量闭环（108 活 fn ID × 119 测试，gate 141 条目全绿），REQ 状态→开发中待人工验收；GA 翻转等人签后另步",
+  "current_task": "REQ-2026-037 GA 翻转批次完成（人工验收通过 2026-11-04）——6 模块行+124 F/I 行已上线，16 UI 行退回开发中随 native 工程面；REQ 状态→已上线",
   "done": [
     "REQ-2026-033（c7133ef）：登录链四 ID 首片",
     "L-T1（6c64f62）：switchTenant 消费 + applySwitchTenant；3 锚；gate 38 条目",
@@ -12,12 +12,12 @@
     "L-T6（ecd3a09）：汇总 M05.F01 五 op+视图派生；5 锚；gate 102 条目",
     "L-T7（d1bfc19）：检测能力八页 M06.F01-F08 39 I 全 trace；gate 141 条目",
     "L-T8（本批收官）：REQ-2026-037 收官批——§2.1 交付态核对（AC-1/3/4 ✅、AC-2 ◐=service+view 分层 jest 断言，RN renderer 组件级随 native 工程面另片既定挂账）+ §5 交付摘要（108 活 fn ID=首片 4+逐片 3/5/16/24/14/5/39，分片七 commit 在案）+ REQ 状态→开发中（代码交付完成待人工验收）；trace 全绿复核（trace.json 119 测试/108 fn，门 L4/L5 绿）；收官全门复跑 L0-L5 全绿 141 条目 exit 0；GA 翻转按 REQ-2026-035/S-T6 先例待验收后另步（免批凭 REQ §5 记录）",
-    "suite 计划 §lab 表下收官注记落档（L-T8 原列 GA 翻转据先例后置，非缺账）"
+    "suite 计划 §lab 表下收官注记落档（L-T8 原列 GA 翻转据先例后置，非缺账）",
+    "GA 翻转批（本批，验收人签后）：REQ §5 签注「人工验收通过」+ 状态→已上线；提案 140 changes mirror 免批（token 1d38cf72，apply 盖章）+ 机械翻行 140 → L5 首跑红（unreachable_shipped 16 项硬阻断：11 按钮 + M05.F01 五视图行）→ 按 gate 处方退回 16 行开发中 → 门 L0-L5 全绿（124 GA + 16 开发中 + M01.F04 规划）。REQ §2.1 AC-4 与 §5 注记同步修正。指纹：GA 翻转 apply 只盖章不翻行（翻行人工，同 --apply 不插行在册）；已上线+无 UI 入口从软告警升硬阻断，纯消费/纯视图行翻 GA 前必先核 unreachable_shipped"
   ],
-  "next": "等人工验收：人签 REQ-2026-037 §5（docs/requirements/REQ-2026-037-rn-full-feature-sync.md）后执行 GA 翻转——M00.F02/M02.F01/M03.F01-F03,F05-F09/M04.F06-F09/M05.F01/M06.F01-F08 及镜像登记 I 项 开发中→已上线，tree_change.py 重新提案 mirror 免批凭 §5 记录；随后全门+双仓提交推远端（gitlink 验证）",
+  "next": "无挂账——REQ-2026-037 全闭环。后续候选：native 工程面另片（android/ ios/ + screen 组件 + 16 UI 行随屏翻 GA + APK 分发）；M01.F04 菜单/权限消费面另片（依赖权限下发面）",
   "open_questions": [
-    "REQ-2026-037 人工验收待人签——GA 翻转的唯一前置",
-    "native 工程面（android/ ios/ + RN renderer 组件级断言 + 登录页 UI + APK 分发）维持 Phase 1+ 另片挂账"
+    "native 工程面（android/ ios/ + RN renderer 组件级断言 + 登录页 UI + APK 分发 + 16 UI 行随屏翻 GA）与 M01.F04 菜单/权限消费面均另片待立项"
   ],
   "dont": [
     "手绘脚本数据表/长 CJK 仍会退化——长内容一律从盘上干净字节机械派生（短 token replace），新骨架从兄弟测试文件派生",

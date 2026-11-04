@@ -5,7 +5,7 @@
 | 提出人 | zcqiand |
 | 提出日期 | 2026-11-02 |
 | 优先级 | P1 |
-| 状态 | 开发中（代码交付完成待人工验收） |
+| 状态 | 已上线（L-T1-T8 全收官 2026-11-04，人工验收通过，GA 已翻转） |
 | 关联 ADR | — |
 | 先例 | REQ-2026-033（本仓登录链首片）/ REQ-2026-031（lab-angular full-feature-sync，1:1 port 配方已验）/ saas miniprogram 刀法（无 dev server 系前端仓的页面交付先例） |
 | 关联 | suite 计划 `docs/superpowers/plans/2026-11-02-rn-business-face.md`（与本单同批立项） |
@@ -46,7 +46,7 @@
 - **AC-1 ✅**：REQ-2026-033 首片 4 ID + 本单七片 104 ID = 108 活 fn ID 全入 trace.json（119 测试，TRACE_MAP 全量重灌；禁 skip 挂 ID）；gate L0-L5 全绿 141 条目（L5 引用完整性零悬空）
 - **AC-2 ◐**：页面以 service + view 分层 jest 断言交付（各域 CRUD/流程 act/过滤语义与 shared op 级 @doc 定稿表一致）；RN renderer 组件级断言随 native 工程面另片（REQ-2026-033 批既定挂账非缺口，REQ-2026-036 S-T6 同形态）
 - **AC-3 ✅**：L4.5 metro bundle 门全批绿（产物落 `_work/`，零 Android SDK 依赖）
-- **AC-4 ✅**：逐域 mirror 免批登记（L-T1-T7 提案 --apply 在案）；交付 I 项全部「开发中」+ 树行与实现同 commit；GA 翻转待人工验收后另步（REQ-2026-035 / REQ-2026-036 S-T6 先例）
+- **AC-4 ✅**：逐域 mirror 免批登记（L-T1-T7 提案 --apply 在案）；GA 翻转 2026-11-04 凭 §5 验收记录落地（124 F/I 行已上线；16 UI 行退回开发中随 native 工程面另片，gate `unreachable_shipped` 处方）；无悬空引用（L5 绿）
 
 ## 3. 任务拆解
 
@@ -60,4 +60,6 @@
 
 ## 5. 人工验收记录
 
-（待批交付后填写。代码交付摘要 2026-11-04：七片 L-T1-T7 全收官——108 活 fn ID 全 trace（REQ-2026-033 首片 4 + 逐片 3/5/16/24/14/5/39）× 119 测试 / gate L0-L5 全绿 141 条目（软告警 16=消费件无 UI 入口预期，S-T6 同形态）；分片 commit 6c64f62 / 82ee1b9+a631f65 / b9a3028 / 137c5a2 / 42377b9 / ecd3a09 / d1bfc19。验收通过后执行 GA 翻转——M00.F02、M02.F01、M03.F01-F03/F05-F09、M04.F06-F09、M05.F01、M06.F01-F08 及镜像登记 I 项 开发中→已上线，mirror 免批凭本记录。）
+**2026-11-04 人签：人工验收通过（zcqiand）。** 同日执行 GA 翻转——M00、M02、M03、M04、M05、M06 六模块行 + 124 F/I 行 开发中→已上线，mirror 免批凭本记录；**16 个 UI 行（11 按钮 + M05.F01 五视图行，`unreachable_shipped` 清单）按 gate 处方退回开发中**——消费逻辑已交付但界面入口随 native 工程面另片（§2.1 AC-2 ◐），上界面时随屏翻 GA。
+
+代码交付摘要 2026-11-04：七片 L-T1-T7 全收官——108 活 fn ID 全 trace（REQ-2026-033 首片 4 + 逐片 3/5/16/24/14/5/39）× 119 测试 / gate L0-L5 全绿 141 条目（软告警 16=消费件无 UI 入口预期，S-T6 同形态）；分片 commit 6c64f62 / 82ee1b9+a631f65 / b9a3028 / 137c5a2 / 42377b9 / ecd3a09 / d1bfc19。
