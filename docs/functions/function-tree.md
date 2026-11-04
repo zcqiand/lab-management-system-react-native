@@ -34,7 +34,7 @@
 | M03 | 试验过程管理 | 接样流 + 报告流消费面（REQ-2026-037 L-T4/L-T5 已落地） | 开发中 |
 | M04 | 基础数据 | 码表四页消费面（REQ-2026-037 L-T3 已落地） | 开发中 |
 | M05 | 数据统计 | 报告汇总消费面（REQ-2026-037 L-T6 已落地） | 开发中 |
-| M06 | 检测能力 | 检测能力八页消费面（REQ-2026-037 L-T7；规划） | 规划 |
+| M06 | 检测能力 | 检测能力八页消费面（REQ-2026-037 L-T7 已落地） | 开发中 |
 
 ---
 
@@ -288,14 +288,110 @@
 
 | 功能 ID | 功能名称 | 说明 | 状态 |
 |---|---|---|---|
-| M06.F01 | 检测专项 | InspectionSpecialty CRUD 消费面（L-T7） | 规划 |
-| M06.F02 | 检测项目 | InspectionObject CRUD + 专项/参数关联消费面（L-T7） | 规划 |
-| M06.F03 | 检测参数 | InspectionParameter CRUD + 标准/参数关联消费面（L-T7） | 规划 |
-| M06.F04 | 检测标准 | InspectionStandard CRUD 消费面（含状态：active/superseded/draft）（L-T7） | 规划 |
-| M06.F05 | 计算方法 | CalculationMethod 维护消费面（复合主键，算法类型 + 公式）（L-T7） | 规划 |
-| M06.F06 | 技术要求 | TechnicalRequirement 维护消费面，按四维度匹配（L-T7） | 规划 |
-| M06.F07 | 报告名称 | InspectionReportName CRUD + extFields 模板消费面（L-T7） | 规划 |
-| M06.F08 | 参数界面 | ParamInterface 维护 + 参数↔界面 link 消费面（L-T7） | 规划 |
+| M06.F01 | 检测专项 | InspectionSpecialty CRUD 消费面（L-T7） | 开发中 |
+| M06.F02 | 检测项目 | InspectionObject CRUD + 专项/参数关联消费面（L-T7） | 开发中 |
+| M06.F03 | 检测参数 | InspectionParameter CRUD + 标准/参数关联消费面（L-T7） | 开发中 |
+| M06.F04 | 检测标准 | InspectionStandard CRUD 消费面（含状态：active/superseded/draft）（L-T7） | 开发中 |
+| M06.F05 | 计算方法 | CalculationMethod 维护消费面（复合主键，算法类型 + 公式）（L-T7） | 开发中 |
+| M06.F06 | 技术要求 | TechnicalRequirement 维护消费面，按四维度匹配（L-T7） | 开发中 |
+| M06.F07 | 报告名称 | InspectionReportName CRUD + extFields 模板消费面（L-T7） | 开发中 |
+| M06.F08 | 参数界面 | ParamInterface 维护 + 参数↔界面 link 消费面（L-T7） | 开发中 |
+
+
+### M06.F01 检测专项
+
+> 镜像 shared BASE `/api/inspection/specialties` 消费面（REQ-2026-037 L-T7）。
+
+| 子项 ID | 名称 | 类型 | 交付 | 说明 | 状态 |
+|---|---|---|---|---|---|
+| M06.F01.I01 | 专项列表（React Native 消费面） | 接口 | 前端+后端 | `inspectionDictionaryListSpecialties` 消费 GET /api/inspection/specialties?page=&pageSize=&keyword=；`Page<InspectionSpecialty>`，按 code/name 模糊匹配，平台级。测试锚 `tests/inspection-dictionary.test.ts` | 开发中 |
+| M06.F01.I02 | 创建专项（React Native 消费面） | 接口 | 前端+后端 | `inspectionDictionaryCreateSpecialty` 消费 POST /api/inspection/specialties；code/officialNo/name 必填；isOfficial/enabled 默认 true；sortOrder 默认 0。测试锚 `tests/inspection-dictionary.test.ts` | 开发中 |
+| M06.F01.I03 | 更新专项（React Native 消费面） | 接口 | 前端+后端 | `inspectionDictionaryUpdateSpecialty` 消费 PUT /api/inspection/specialties/{code}；PATCH 语义，未传字段保留。测试锚 `tests/inspection-dictionary.test.ts` | 开发中 |
+
+### M06.F02 检测项目
+
+> 镜像 shared BASE `/api/inspection/objects + /api/inspection/links/*` 消费面（REQ-2026-037 L-T7）。
+
+| 子项 ID | 名称 | 类型 | 交付 | 说明 | 状态 |
+|---|---|---|---|---|---|
+| M06.F02.I01 | 项目列表（React Native 消费面） | 接口 | 前端+后端 | `inspectionDictionaryListObjects` 消费 GET /api/inspection/objects?page=&pageSize=&inspectionSpecialtyCode=&keyword=；`Page<InspectionObject>`，按 code/name 模糊 + 专项过滤。测试锚 `tests/inspection-dictionary.test.ts` | 开发中 |
+| M06.F02.I02 | 创建项目（React Native 消费面） | 接口 | 前端+后端 | `inspectionDictionaryLinkSpecialtyObject` 消费 POST /api/inspection/objects；code/inspectionSpecialtyCode/sourceProjectNo/sourceProjectName/name 必填；isOptionalForQualification 默认 false；isOfficial/enabled 默认 true。测试锚 `tests/inspection-dictionary.test.ts` | 开发中 |
+| M06.F02.I03 | 更新项目（React Native 消费面） | 接口 | 前端+后端 | `inspectionDictionaryUpdateObject` 消费 PUT /api/inspection/objects/{code}；PATCH 语义。测试锚 `tests/inspection-dictionary.test.ts` | 开发中 |
+| M06.F02.I04 | 删除项目（React Native 消费面） | 接口 | 前端+后端 | `inspectionDictionaryDeleteObject` 消费 DELETE /api/inspection/objects/{code}；204 if exists。测试锚 `tests/inspection-dictionary.test.ts` | 开发中 |
+| M06.F02.I05 | 专项↔项目 link（React Native 消费面） | 接口 | 前端+后端 | `inspectionDictionaryLinkSpecialtyObject` 消费 POST /api/inspection/links/specialty-object；建立 specialty→object 关联，remark 可选。测试锚 `tests/inspection-dictionary.test.ts` | 开发中 |
+| M06.F02.I06 | 专项↔项目 unlink（React Native 消费面） | 接口 | 前端+后端 | `inspectionDictionaryUnlinkSpecialtyObject` 消费 DELETE /api/inspection/links/specialty-object；404 if 不存在。测试锚 `tests/inspection-dictionary.test.ts` | 开发中 |
+| M06.F02.I07 | 项目↔参数 link（React Native 消费面） | 接口 | 前端+后端 | `inspectionDictionaryLinkObjectParameter` 消费 POST /api/inspection/links/object-parameter；建立 object→parameter 关联，qualificationLevel 默认 QUALIFIED，sourcePage/remark 可选。测试锚 `tests/inspection-dictionary.test.ts` | 开发中 |
+
+### M06.F03 检测参数
+
+> 镜像 shared BASE `/api/inspection/parameters + /api/inspection/links/standard-parameter` 消费面（REQ-2026-037 L-T7）。
+
+| 子项 ID | 名称 | 类型 | 交付 | 说明 | 状态 |
+|---|---|---|---|---|---|
+| M06.F03.I01 | 参数列表（React Native 消费面） | 接口 | 前端+后端 | `inspectionDictionaryListParameters` 消费 GET /api/inspection/parameters?page=&pageSize=&keyword=&sourceType=；`Page<InspectionParameter>`，按 code/name 模糊 + sourceType 过滤（official/custom）。测试锚 `tests/inspection-dictionary.test.ts` | 开发中 |
+| M06.F03.I02 | 创建参数（React Native 消费面） | 接口 | 前端+后端 | `inspectionDictionaryLinkStandardParameter` 消费 POST /api/inspection/parameters；code/name/rawName/canonicalName 必填；sourceType 默认 OFFICIAL；aliases 默认 []。测试锚 `tests/inspection-dictionary.test.ts` | 开发中 |
+| M06.F03.I03 | 更新参数（React Native 消费面） | 接口 | 前端+后端 | `inspectionDictionaryUpdateParameter` 消费 PUT /api/inspection/parameters/{code}；PATCH 语义；aliases 传则整体替换。测试锚 `tests/inspection-dictionary.test.ts` | 开发中 |
+
+### M06.F04 检测标准
+
+> 镜像 shared BASE `/api/inspection/standards` 消费面（REQ-2026-037 L-T7）。
+
+| 子项 ID | 名称 | 类型 | 交付 | 说明 | 状态 |
+|---|---|---|---|---|---|
+| M06.F04.I01 | 标准列表（React Native 消费面） | 接口 | 前端+后端 | `inspectionDictionaryListStandards` 消费 GET /api/inspection/standards?page=&pageSize=&keyword=&status=；`Page<InspectionStandard>`，按 code/name 模糊 + status 过滤（active/superseded/draft）。测试锚 `tests/inspection-dictionary.test.ts` | 开发中 |
+| M06.F04.I02 | 创建标准（React Native 消费面） | 接口 | 前端+后端 | `inspectionDictionaryCreateStandard` 消费 POST /api/inspection/standards；code/name 必填；status 默认 ACTIVE。测试锚 `tests/inspection-dictionary.test.ts` | 开发中 |
+| M06.F04.I03 | 更新标准（React Native 消费面） | 接口 | 前端+后端 | `inspectionDictionaryUpdateStandard` 消费 PUT /api/inspection/standards/{code}；PATCH 语义。测试锚 `tests/inspection-dictionary.test.ts` | 开发中 |
+| M06.F04.I04 | 删除标准（React Native 消费面） | 接口 | 前端+后端 | `inspectionDictionaryDeleteStandard` 消费 DELETE /api/inspection/standards/{code}；204 if exists。测试锚 `tests/inspection-dictionary.test.ts` | 开发中 |
+
+### M06.F05 计算方法
+
+> 镜像 shared BASE `/api/calculation-methods` 消费面（REQ-2026-037 L-T7）。
+
+| 子项 ID | 名称 | 类型 | 交付 | 说明 | 状态 |
+|---|---|---|---|---|---|
+| M06.F05.I01 | 计算方法列表（React Native 消费面） | 接口 | 前端+后端 | `calculationMethodsListCalculationMethods` 消费 GET /api/calculation-methods?inspectionObjectCode=&inspectionParameterCode=；平台级（无 tenant 过滤）。测试锚 `tests/calculation-techreq.test.ts` | 开发中 |
+| M06.F05.I02 | 计算方法详情（React Native 消费面） | 接口 | 前端+后端 | `calculationMethodsGetCalculationMethod` 消费 GET /api/calculation-methods/{inspectionObjectCode}/{inspectionParameterCode}；复合主键。测试锚 `tests/calculation-techreq.test.ts` | 开发中 |
+| M06.F05.I03 | 创建计算方法（React Native 消费面） | 接口 | 前端+后端 | `calculationMethodsCreateCalculationMethod` 消费 POST /api/calculation-methods；body CreateCalculationMethodRequest，algorithmType 默认 MANUAL、specimenCount 默认 1。测试锚 `tests/calculation-techreq.test.ts` | 开发中 |
+
+### M06.F06 技术要求
+
+> 镜像 shared BASE `/api/technical-requirements` 消费面（REQ-2026-037 L-T7）。
+
+| 子项 ID | 名称 | 类型 | 交付 | 说明 | 状态 |
+|---|---|---|---|---|---|
+| M06.F06.I01 | 技术要求列表（React Native 消费面） | 接口 | 前端+后端 | `technicalRequirementsListTechnicalRequirements` 消费 GET /api/technical-requirements?inspectionObjectCode=&inspectionParameterCode=&judgmentStandardCode=&verificationStatus=；tenant 收口 + 4 过滤。测试锚 `tests/calculation-techreq.test.ts` | 开发中 |
+| M06.F06.I02 | 技术要求详情（React Native 消费面） | 接口 | 前端+后端 | `technicalRequirementsCreateTechnicalRequirement` 消费 GET /api/technical-requirements/{object}/{param}/{standard}；复合三键。测试锚 `tests/calculation-techreq.test.ts` | 开发中 |
+| M06.F06.I03 | 创建技术要求（React Native 消费面） | 接口 | 前端+后端 | `technicalRequirementsCreateTechnicalRequirement` 消费 POST /api/technical-requirements；tenant 从 token claim 注入；默认值 numeric/≥/manual/draft。测试锚 `tests/calculation-techreq.test.ts` | 开发中 |
+| M06.F06.I04 | 更新技术要求（React Native 消费面） | 接口 | 前端+后端 | `technicalRequirementsUpdateTechnicalRequirement` 消费 PUT /api/technical-requirements/{...}；PATCH 语义。测试锚 `tests/calculation-techreq.test.ts` | 开发中 |
+| M06.F06.I05 | 删除技术要求（React Native 消费面） | 接口 | 前端+后端 | `technicalRequirementsDeleteTechnicalRequirement` 消费 DELETE /api/technical-requirements/{...}；204。测试锚 `tests/calculation-techreq.test.ts` | 开发中 |
+
+### M06.F07 报告名称
+
+> 镜像 shared BASE `/api/report-names + /api/report-names/links/*` 消费面（REQ-2026-037 L-T7）。
+
+| 子项 ID | 名称 | 类型 | 交付 | 说明 | 状态 |
+|---|---|---|---|---|---|
+| M06.F07.I01 | 报告名称列表（React Native 消费面） | 接口 | 前端+后端 | `reportNamesListReportNames` 消费 GET /api/report-names?page=&pageSize=&keyword=；`Page<InspectionReportName>`，按 code/name 模糊。测试锚 `tests/report-names-params.test.ts` | 开发中 |
+| M06.F07.I02 | 报告名称详情（React Native 消费面） | 接口 | 前端+后端 | `reportNamesLinkReportNameStandard` 消费 GET /api/report-names/{code}；返回 InspectionReportName（含 extFields 反序列化的 `List<ExtFieldDef>`）。测试锚 `tests/report-names-params.test.ts` | 开发中 |
+| M06.F07.I03 | 创建报告名称（React Native 消费面） | 接口 | 前端+后端 | `reportNamesCreateReportName` 消费 POST /api/report-names；code/name 必填；extFields 默认 []。测试锚 `tests/report-names-params.test.ts` | 开发中 |
+| M06.F07.I04 | 更新报告名称（React Native 消费面） | 接口 | 前端+后端 | `reportNamesUpdateReportName` 消费 PUT /api/report-names/{code}；PATCH 语义。测试锚 `tests/report-names-params.test.ts` | 开发中 |
+| M06.F07.I05 | 删除报告名称（React Native 消费面） | 接口 | 前端+后端 | `reportNamesDeleteReportName` 消费 DELETE /api/report-names/{code}；204 if exists。测试锚 `tests/report-names-params.test.ts` | 开发中 |
+| M06.F07.I06 | 项目↔报告名称 link（React Native 消费面） | 接口 | 前端+后端 | `reportNamesLinkObjectReportName` 消费 POST /api/report-names/links/object；建立 object→report-name 关联，remark 可选。测试锚 `tests/report-names-params.test.ts` | 开发中 |
+| M06.F07.I07 | 报告名称↔标准 link（React Native 消费面） | 接口 | 前端+后端 | `reportNamesLinkReportNameStandard` 消费 POST /api/report-names/links/standard；建立 report-name→standard(role) 关联，role 必填。测试锚 `tests/report-names-params.test.ts` | 开发中 |
+| M06.F07.I08 | 报告名称↔参数 link（React Native 消费面） | 接口 | 前端+后端 | `reportNamesLinkReportNameParameter` 消费 POST /api/report-names/links/parameter；建立 report-name→parameter 关联。测试锚 `tests/report-names-params.test.ts` | 开发中 |
+
+### M06.F08 参数界面
+
+> 镜像 shared BASE `/api/param-interfaces + /api/param-interfaces/links` 消费面（REQ-2026-037 L-T7）。
+
+| 子项 ID | 名称 | 类型 | 交付 | 说明 | 状态 |
+|---|---|---|---|---|---|
+| M06.F08.I01 | 参数界面列表（React Native 消费面） | 接口 | 前端+后端 | `paramInterfacesListParamInterfaces` 消费 GET /api/param-interfaces?page=&pageSize=&keyword=；`Page<ParamInterface>`，按 code/name 模糊。测试锚 `tests/report-names-params.test.ts` | 开发中 |
+| M06.F08.I02 | 参数界面详情（React Native 消费面） | 接口 | 前端+后端 | `paramInterfacesGetParamInterface` 消费 GET /api/param-interfaces/{code}；返回 ParamInterface（含 config 反序列化的 Map<String,Object>）。测试锚 `tests/report-names-params.test.ts` | 开发中 |
+| M06.F08.I03 | 创建参数界面（React Native 消费面） | 接口 | 前端+后端 | `paramInterfacesCreateParamInterface` 消费 POST /api/param-interfaces；code/componentPath 必填；config 默认 {}。测试锚 `tests/report-names-params.test.ts` | 开发中 |
+| M06.F08.I04 | 更新参数界面（React Native 消费面） | 接口 | 前端+后端 | `paramInterfacesUpdateParamInterface` 消费 PUT /api/param-interfaces/{code}；PATCH 语义。测试锚 `tests/report-names-params.test.ts` | 开发中 |
+| M06.F08.I05 | 删除参数界面（React Native 消费面） | 接口 | 前端+后端 | `paramInterfacesDeleteParamInterface` 消费 DELETE /api/param-interfaces/{code}；204 if exists。测试锚 `tests/report-names-params.test.ts` | 开发中 |
+| M06.F08.I06 | 参数↔界面 link（React Native 消费面） | 接口 | 前端+后端 | `paramInterfacesLinkParamInterface` 消费 POST /api/param-interfaces/links；建立 parameter→interface 关联，reportNameCode/config 可选（config 走 jsonb）。测试锚 `tests/report-names-params.test.ts` | 开发中 |
 
 ---
 
