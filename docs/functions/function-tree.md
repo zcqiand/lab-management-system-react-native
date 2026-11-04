@@ -33,7 +33,7 @@
 | M02 | 资源管理 | 合同管理消费面（REQ-2026-037 L-T2 已落地） | 开发中 |
 | M03 | 试验过程管理 | 接样流 + 报告流消费面（REQ-2026-037 L-T4/L-T5 已落地） | 开发中 |
 | M04 | 基础数据 | 码表四页消费面（REQ-2026-037 L-T3 已落地） | 开发中 |
-| M05 | 数据统计 | 报告汇总消费面（REQ-2026-037 L-T6；规划） | 规划 |
+| M05 | 数据统计 | 报告汇总消费面（REQ-2026-037 L-T6 已落地） | 开发中 |
 | M06 | 检测能力 | 检测能力八页消费面（REQ-2026-037 L-T7；规划） | 规划 |
 
 ---
@@ -268,7 +268,19 @@
 
 | 功能 ID | 功能名称 | 说明 | 状态 |
 |---|---|---|---|
-| M05.F01 | 报告汇总 | 按报告类别输出试验报告汇总表消费面（L-T6） | 规划 |
+| M05.F01 | 报告汇总 | 按报告类别输出试验报告汇总表消费面（L-T6） | 开发中 |
+
+### M05.F01 报告汇总
+
+> 镜像 shared BASE `/api/summary` + `/api/summary/stats` 消费面（REQ-2026-037 L-T6）。
+
+| 子项 ID | 名称 | 类型 | 交付 | 说明 | 状态 |
+|---|---|---|---|---|---|
+| M05.F01.I01 | 报告汇总表（按报告类别汇总）（React Native 消费面） | 查询 | 前端+后端 | `summaryGetReportSummary` 消费 GET /api/summary；categoryCode=ALL 不过滤/dateFrom/dateTo 直传，200 SummaryData{summaryName,columns,rows}。测试锚 `tests/summary.test.ts` | 开发中 |
+| M05.F01.I02 | 仪表盘统计（React Native 消费面） | 查询 | 仅前端 | `buildDashboardCards` 纯视图派生（四基数卡：合同/接样单/样品/待办任务）。测试锚 `tests/summary.test.ts` | 开发中 |
+| M05.F01.I03 | 核心指标卡（React Native 消费面） | 查询 | 前端+后端 | `buildCoreCards` 派生 todayTestCount + qualifiedRateByMaterial + reportOutputByStatus（stats 扩展字段）。测试锚 `tests/summary.test.ts` | 开发中 |
+| M05.F01.I04 | 任务状态漏斗（React Native 消费面） | 报表 | 前端+后端 | `buildFunnel` 派生六段顺序（pending_collect→received→testing→reporting→reviewing→issued）+ `summaryGetDashboardStats` 消费 funnelByStage。测试锚 `tests/summary.test.ts` | 开发中 |
+| M05.F01.I06 | 仪表盘统计基础端点（React Native 消费面） | 查询 | 前端+后端 | `summaryGetDashboardStats` 消费 GET /api/summary/stats；基础四计数 + reportCountByStatus 三桶（draft/reviewing/issued）+ pendingTaskCount。测试锚 `tests/summary.test.ts` | 开发中 |
 
 ---
 
