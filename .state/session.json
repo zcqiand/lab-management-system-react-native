@@ -1,7 +1,7 @@
 {
   "schema": 1,
   "project": "lab-management-system RN 侧全功能同步",
-  "current_task": "REQ-2026-037 L-T7 检测能力八页收官——M06.F01-F08 39 活 I 全 trace；下一片 L-T8 收官（mirror GA 翻转 + trace 全绿 + handoff）",
+  "current_task": "REQ-2026-037 L-T8 收官批完成——代码交付全量闭环（108 活 fn ID × 119 测试，gate 141 条目全绿），REQ 状态→开发中待人工验收；GA 翻转等人签后另步",
   "done": [
     "REQ-2026-033（c7133ef）：登录链四 ID 首片",
     "L-T1（6c64f62）：switchTenant 消费 + applySwitchTenant；3 锚；gate 38 条目",
@@ -10,19 +10,21 @@
     "L-T4（137c5a2）：接样流 M03.F01-F03；24 锚；gate 83 条目",
     "L-T5（42377b9）：详情+报告流 M03.F05-F09；14 锚；gate 97 条目",
     "L-T6（ecd3a09）：汇总 M05.F01 五 op+视图派生；5 锚；gate 102 条目",
-    "L-T7（本批）：检测能力八页 M06.F01-F08——39 I 全 trace；gate L0-L5 全绿 141 条目（102+39）。行清单镜像 lab-angular REQ-2026-031 同批 39 I 集（1:1 port 配方，BASE 56 行中 17 link 行不在配方范围）；三个 service（dictionary 四域 CRUD+link / methods 复合主键 / admin 报告名称三向 link+参数界面）；三个测试文件 39 锚；树 48 changes mirror 免批（M06 模块+8 F 翻转+39 I 登记，token 绑 3e2e40b2）；red 证据 09:23:04 → phase green",
-    "指纹1：分页语义 op 级 @doc 分域——calculation-methods 与 technical-requirements list 返回裸数组 data: X[]，其余 M06 列表（dictionary 四域/report-names/param-interfaces）返回信封 {items,page,pageSize,total}；同一 REQ 内两种形状并存，逐 op 核生成端签名别推断",
-    "指纹2：fail() 优先取 body 的 code：message 而非 fallback label——404 删除报错文本=「NOT_FOUND：无此项目」，测试正则须 /无此|404/ 而非裸 /404/",
-    "指纹3：骨架派生的 token 计数断言要做子串碰撞修正（CalculationMethod 在 createCalculationMethodService 里也命中）且只断增量（盘上已有旧内容先数再断 +N）；重复 helper（STUB 段已含 envelope/lastBody/booted）别在 HDR 段再定义一次，L2 unused 会红"
+    "L-T7（d1bfc19）：检测能力八页 M06.F01-F08 39 I 全 trace；gate 141 条目",
+    "L-T8（本批收官）：REQ-2026-037 收官批——§2.1 交付态核对（AC-1/3/4 ✅、AC-2 ◐=service+view 分层 jest 断言，RN renderer 组件级随 native 工程面另片既定挂账）+ §5 交付摘要（108 活 fn ID=首片 4+逐片 3/5/16/24/14/5/39，分片七 commit 在案）+ REQ 状态→开发中（代码交付完成待人工验收）；trace 全绿复核（trace.json 119 测试/108 fn，门 L4/L5 绿）；收官全门复跑 L0-L5 全绿 141 条目 exit 0；GA 翻转按 REQ-2026-035/S-T6 先例待验收后另步（免批凭 REQ §5 记录）",
+    "suite 计划 §lab 表下收官注记落档（L-T8 原列 GA 翻转据先例后置，非缺账）"
   ],
-  "next": "REQ-2026-037 L-T8 收官（最后一片）：① mirror GA 翻转——GA 翻转须 REQ-2026-037 人工验收记录（先读 suite docs/req/ REQ-2026-037 §5 验收段落确认既有先例格式；GA 凭验收免批），tree_change.py 再提案（base_sha 会变，重新提案即可）把 M06/M05/M03 等已上线 F 的 GA 字段翻转；② 全量 TRACE_MAP 重灌确认全绿；③ python scripts/gate.py -p lab-management-system-react-native 全门；④ 双仓 session.json + tracker 收官段 + 提交推远端（gitlink 验证 git diff --cached --submodule=short）",
-  "open_questions": [],
+  "next": "等人工验收：人签 REQ-2026-037 §5（docs/requirements/REQ-2026-037-rn-full-feature-sync.md）后执行 GA 翻转——M00.F02/M02.F01/M03.F01-F03,F05-F09/M04.F06-F09/M05.F01/M06.F01-F08 及镜像登记 I 项 开发中→已上线，tree_change.py 重新提案 mirror 免批凭 §5 记录；随后全门+双仓提交推远端（gitlink 验证）",
+  "open_questions": [
+    "REQ-2026-037 人工验收待人签——GA 翻转的唯一前置",
+    "native 工程面（android/ ios/ + RN renderer 组件级断言 + 登录页 UI + APK 分发）维持 Phase 1+ 另片挂账"
+  ],
   "dont": [
     "手绘脚本数据表/长 CJK 仍会退化——长内容一律从盘上干净字节机械派生（短 token replace），新骨架从兄弟测试文件派生",
-    "骨架派生后必须 diff 盘点三处：尾逗号（replace 连逗号吞）、fixture 语义残留（继承自源文件要改）、骨架带出的未用 helper（envelope/lastBody 全 GET+裸数组域用不上，L2 eslint no-unused-vars 是 ERROR 会红）",
+    "骨架派生后必须 diff 盘点三处：尾逗号、fixture 语义残留、未用 helper（L2 eslint no-unused-vars 是 ERROR）",
     "整文件单发 Write 写长测试文件不可靠——骨架+Edit 小段追加",
-    "TRACE_MAP=1 jest 带文件过滤参数会截断 trace.json（只剩该文件条目）——重灌必须全量跑不带过滤",
-    "回验 Bash 先 pwd——suite 环境 cwd 会在调用间弹回 suite 根，每条命令带 cd 绝对路径 && pwd 前缀",
+    "TRACE_MAP=1 jest 带文件过滤参数会截断 trace.json——重灌必须全量跑不带过滤",
+    "回验 Bash 先 pwd——cwd 会在调用间弹回 suite 根，每条命令带 cd 绝对路径 && pwd 前缀",
     "门命令必须 npx --no -- 分隔；redcheck.py Windows 起不动 npx——红灯判定走 gate.py --only L4",
     "新文件过门前先 npx --no -- prettier --write",
     "收官提交圈定文件清单禁 git add -A（phase.json/red.json/tree-change.json 证据文件不入库）"
